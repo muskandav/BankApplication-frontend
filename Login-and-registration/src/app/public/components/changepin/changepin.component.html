@@ -1,0 +1,44 @@
+<h3 class="header">Change PIN</h3>
+
+
+<form class="form" [formGroup]="formData" (ngSubmit)="OnSubmit()">
+
+    <div class="row" *ngIf="showMsg">
+        <div class="col-xs-12">
+            <p class="alert alert-success">
+                <strong>{{msg}}</strong>
+
+            </p>
+        </div>
+    </div>
+
+    <label for="old-pin">Old PIN: </label>
+    <input id="old-pin" type="number" placeholder="0000" formControlName="oldPin" (selectionChange)="ApplyValidation()" />
+    <mat-error *ngIf="this.formData.get('oldPin')?.touched && this.formData.get('oldPin')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <label for="new-pin">New PIN: </label>
+    <input id="new-pin" type="number" formControlName="newPin" />
+    <mat-error *ngIf="this.formData.get('newPin')?.touched && this.formData.get('newPin')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <label for="confirm-new-pin">Confirm New PIN: </label>
+    <input id="confirm-new-pin" type="number" formControlName="ConfirmNewPin" />
+    <mat-error *ngIf="this.formData.get('ConfirmNewPin')?.touched && this.formData.get('ConfirmNewPin')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <button type="submit" [disabled]="!formData.valid">Change PIN</button>
+
+</form>

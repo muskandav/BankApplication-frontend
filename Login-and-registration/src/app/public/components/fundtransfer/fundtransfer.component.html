@@ -1,0 +1,59 @@
+<h3 class="header">Fund Transfer</h3>
+
+
+<form class="form" [formGroup]="formData" (ngSubmit)="OnSubmit()">
+
+    <div class="row" *ngIf="showMsg">
+        <div class="col-xs-12">
+            <p class="alert alert-success">
+                <strong>{{msg}}</strong>
+
+            </p>
+        </div>
+    </div>
+
+    <label for="acc-Number">From Account: </label>
+    <input id="accNumber" type="number" formControlName="fromAccount" />
+    <mat-error *ngIf="this.formData.get('fromAccount')?.touched && this.formData.get('fromAccount')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <label for="beneficiary-Account">Beneficiary Account: </label>
+    <input id="beneficiary-Account" type="number" formControlName="beneficiaryAcc" />
+    <mat-error *ngIf="this.formData.get('beneficiaryAcc')?.touched && this.formData.get('beneficiaryAcc')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <!--<label for="beneficiary-Account-type">Beneficiary Account Type: </label>
+    <input id="beneficiary-Account-type" type="number" formControlName="beneficiaryAccType" />-->
+
+    <label for="beneficiary-Account-type">Beneficiary Account Type: </label>
+    <select formControlName="beneficiaryAccType">
+        <option disabled>Select Account Type</option>
+        <option>Choose Account Type</option>
+        <option *ngFor="let type of accTypes">{{type}}</option>
+    </select>
+    <mat-error *ngIf="this.formData.get('beneficiaryAccType')?.touched && this.formData.get('beneficiaryAccType')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+
+    <br />
+    <br />
+
+    <label for="amount">Amount: </label>
+    <input id="amount" type="number" formControlName="amount" />
+    <mat-error *ngIf="this.formData.get('amount')?.touched && this.formData.get('amount')?.hasError('required')">
+        Required field!
+    </mat-error>
+
+    <br />
+    <br />
+
+    <button type="submit" [disabled]="!formData.valid">Transfer</button>

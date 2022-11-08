@@ -1,0 +1,45 @@
+<h3 class="header">Account Details</h3>
+<div class="details">
+  <span>Name: </span>
+  <br />
+  <span>Account Number: {{[accNumber]}}</span>
+  <br />
+  <span>Balance: </span>
+  <br />
+  <br />
+</div>
+
+
+<h3 class="header">Transaction Details</h3>
+<table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+  <tr style="display:none !important">
+    <!-- Id Column -->
+    <ng-container matColumnDef="TransactionId">
+      <th mat-header-cell *matHeaderCellDef> Transaction Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.TransactionId}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="TransactionDate">
+      <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.TransactionDate}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Type">
+      <th mat-header-cell *matHeaderCellDef> Transaction Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Amount">
+      <th mat-header-cell *matHeaderCellDef> Amount </th>
+      <td mat-cell *matCellDef="let element"> {{element.Amount}} </td>
+    </ng-container>
+  </tr>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
