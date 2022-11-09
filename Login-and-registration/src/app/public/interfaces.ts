@@ -44,3 +44,19 @@ export interface RegisterResponse {
   status: number;
   message: string;
 }
+
+/*
+ Interface for transations
+ */
+export interface ITransactions {
+    TransactionId: number;
+    TransactionDate: Date;
+    Type: string;
+    Amount: number;
+}
+
+export interface IUserInfo {
+    Name: string;
+    AccountNumber: Number;
+    Balance: Number
+}

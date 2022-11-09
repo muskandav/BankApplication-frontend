@@ -9,6 +9,8 @@ import { LOCALSTORAGE_TOKEN_KEY } from 'src/app/app.module';
 })
 export class DashboardComponent {
 
+  AccountNumber = '1234567890';
+
   constructor(
     private router: Router
   ) {

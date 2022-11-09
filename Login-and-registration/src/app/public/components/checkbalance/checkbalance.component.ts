@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ITransactions, IUserInfo } from '../../interfaces';
+import { CheckbalanceService } from '../../services/checkbalance.service';
 
 export interface PeriodicElement {
   TransactionId: number;
@@ -7,31 +9,31 @@ export interface PeriodicElement {
   Amount: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { TransactionId: 1, TransactionDate: 'Hydrogen', Type: 1.0079, Amount: 'H' },
-  { TransactionId: 2, TransactionDate: 'Helium', Type: 4.0026, Amount: 'He' },
-  { TransactionId: 3, TransactionDate: 'Lithium', Type: 6.941, Amount: 'Li' },
-
-]
 
 @Component({
   selector: 'app-checkbalance',
   templateUrl: './checkbalance.component.html',
-  styleUrls: ['./checkbalance.component.css']
+  styleUrls: ['./checkbalance.component.css'],
+  providers: [CheckbalanceService]
 })
 export class CheckbalanceComponent implements OnInit {
 
   @Input() accNumber = '';
 
-
-  ;
-
   displayedColumns: string[] = ['TransactionId', 'TransactionDate', 'Type', 'Amount'];
-  dataSource = ELEMENT_DATA;
 
-  constructor() { }
+    dataSource: ITransactions[] = [];
+    userInfo: IUserInfo = {
+        Name: '',
+        AccountNumber: 0,
+        Balance: 0
+    };
 
-  ngOnInit(): void {
+  constructor(private transactionService: CheckbalanceService) { }
+
+    ngOnInit(): void {
+        this.dataSource = this.transactionService.getTransactions();
+        this.userInfo = this.transactionService.getUserInformation();
   }
 
 }

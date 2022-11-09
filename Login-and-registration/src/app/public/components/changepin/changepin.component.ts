@@ -1,16 +1,18 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { GetpinService } from '../../services/getpin.service';
 
 @Component({
   selector: 'app-changepin',
   templateUrl: './changepin.component.html',
-  styleUrls: ['./changepin.component.css'],
-  encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./changepin.component.css'],
+    providers: [GetpinService]
 })
-export class ChangepinComponent {
+export class ChangepinComponent implements OnInit {
 
   public showMsg: boolean = false;
-  public msg: string = '';
+    public msg: string = '';
+    public oldUserPin: number = 0;
     
   formData = new FormGroup({
     oldPin: new FormControl('', [Validators.required]),
@@ -18,9 +20,21 @@ export class ChangepinComponent {
     ConfirmNewPin: new FormControl('', [Validators.required]),
   });
 
+    constructor(private getpinService: GetpinService) { }
+
+    ngOnInit() {
+        this.oldUserPin = this.getpinService.getOldPin();
+    }
+
   OnSubmit(): void {
     const newP = this.formData.get('newPin')?.value;
-    const Confirmnew = this.formData.get('ConfirmNewPin')?.value;
+      const Confirmnew = this.formData.get('ConfirmNewPin')?.value;
+
+      if (this.formData.value.oldPin !== this.oldUserPin) {
+          this.showMsg = true;
+          this.msg = 'Incorrect PIN!';
+          return;
+      }
     if (newP == Confirmnew) {
       console.log(this.formData.value);
       console.log(this.formData.valid);
@@ -35,17 +49,6 @@ export class ChangepinComponent {
     
   }
 
-  ApplyValidation(): void {
-    const newP = this.formData.get('newPin')?.value;
-    this.formData.get('newPin')?.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[0-9]+')]);
-    this.formData.get('ConfirmNewPin')?.setValidators([Validators.required, Validators.maxLength(4), Validators.minLength(4), Validators.pattern('[0-9]+')]);
-    this.formData.get('oldPin')?.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[0-9]+')]);
-
-    this.formData.controls['newPin'].updateValueAndValidity();
-    this.formData.controls['ConfirmNewPin'].updateValueAndValidity();
-    this.formData.controls['oldPin'].updateValueAndValidity();
-
-    console.log("validating");
-  }
+ 
  
 }
